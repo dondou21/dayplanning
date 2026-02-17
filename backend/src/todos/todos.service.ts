@@ -22,10 +22,11 @@ export class TodosService {
         })
     }
 
-    async findOne(id: number) {
+    async findOne(id: number, userId: number) {
         return this.prisma.todo.findUnique({
             where: {
                 id,
+                userId,
             },
         })
     }

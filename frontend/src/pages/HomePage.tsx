@@ -1,65 +1,94 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CheckCircle, Clock, Shield, ArrowRight, Star } from 'lucide-react';
 
 const HomePage: React.FC = () => {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-black text-white flex flex-col justify-center items-center px-4">
-            <div className="max-w-4xl text-center">
-                <h1 className="text-6xl md:text-8xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 animate-pulse">
-                    NestJS Auth Demo
-                </h1>
-                <p className="text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-                    A premium full-stack authentication system built with NestJS, Prisma, React, and Tailwind CSS.
-                    Experience seamless security and high-performance todo management.
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                    <Link
-                        to="/register"
-                        className="px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full font-bold text-lg hover:from-cyan-400 hover:to-blue-400 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(34,211,238,0.5)] flex items-center justify-center"
-                    >
-                        Get Started
-                    </Link>
-                    <Link
-                        to="/login"
-                        className="px-10 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-bold text-lg hover:bg-white/20 transition-all transform hover:scale-105 flex items-center justify-center"
-                    >
-                        Sign In
-                    </Link>
-                </div>
-            </div>
-
-            <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
-                <div className="p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl hover:border-cyan-500/50 transition-all group">
-                    <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-6 text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
+        <div className="bg-white dark:bg-slate-950">
+            {/* Hero Section */}
+            <section className="relative pt-20 pb-32 overflow-hidden">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center">
+                        <div className="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold text-sm mb-6 animate-fade-in">
+                            <Star size={16} fill="currentColor" />
+                            <span>Voted #1 Task Management App</span>
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8">
+                            Master Your Day with <span className="text-indigo-600 dark:text-indigo-400">MyTodo</span>
+                        </h1>
+                        <p className="text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">
+                            The smartest way to manage your tasks. Stay organized, focused, and achieve your goals faster with our intuitive todo list application.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link to="/register" className="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-indigo-500/20 flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95">
+                                Get Started Free <ArrowRight size={20} />
+                            </Link>
+                            <Link to="/login" className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all">
+                                Sign In
+                            </Link>
+                        </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-3">Secure Auth</h3>
-                    <p className="text-gray-400">JWT-based authentication with protected routes and secure session management.</p>
                 </div>
 
-                <div className="p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl hover:border-purple-500/50 transition-all group">
-                    <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-6 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 className="text-xl font-bold mb-3">Fast Performance</h3>
-                    <p className="text-gray-400">Optimized backend with NestJS and Prisma for lightning-fast database operations.</p>
-                </div>
+                {/* Background Blobs */}
+                <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 dark:bg-purple-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+                <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 dark:bg-indigo-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+                <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 dark:bg-pink-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+            </section>
 
-                <div className="p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl hover:border-pink-500/50 transition-all group">
-                    <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center mb-6 text-pink-400 group-hover:bg-pink-500 group-hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="4 6h16M4 12h16m-7 6h7" />
-                        </svg>
+            {/* Features Section */}
+            <section className="py-24 bg-slate-50 dark:bg-slate-900/50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Everything you need to succeed</h2>
+                        <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto">Powerful features to help you manage work and life without breaking a sweat.</p>
                     </div>
-                    <h3 className="text-xl font-bold mb-3">Task Management</h3>
-                    <p className="text-gray-400">Organize your workflow with a sleek, responsive todo application interface.</p>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {[
+                            {
+                                icon: <CheckCircle className="text-emerald-500" />,
+                                title: "Task Tracking",
+                                description: "Effortlessly create, update, and track your todos with our streamlined interface."
+                            },
+                            {
+                                icon: <Clock className="text-indigo-500" />,
+                                title: "Real-time Sync",
+                                description: "Your tasks are always where you need them, syncing instantly across all your devices."
+                            },
+                            {
+                                icon: <Shield className="text-blue-500" />,
+                                title: "Secure & Private",
+                                description: "Your data is protected with industry-standard encryption and secure authentication."
+                            }
+                        ].map((feature, i) => (
+                            <div key={i} className="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1">
+                                <div className="w-12 h-12 bg-slate-100 dark:bg-slate-900 rounded-2xl flex items-center justify-center mb-6">
+                                    {React.cloneElement(feature.icon as React.ReactElement<any>, { size: 24 })}
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">{feature.title}</h3>
+                                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{feature.description}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-24">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="bg-indigo-600 rounded-[3rem] p-12 md:p-16 text-center text-white relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+                        <div className="relative z-10">
+                            <h2 className="text-3xl md:text-5xl font-bold mb-8 italic">Ready to transform your productivity?</h2>
+                            <p className="text-indigo-100 text-lg mb-10 max-w-xl mx-auto">Join thousands of users who have already simplified their lives with MyTodo.</p>
+                            <Link to="/register" className="inline-block bg-white text-indigo-600 hover:bg-slate-100 px-10 py-5 rounded-2xl font-bold text-xl transition-all shadow-2xl">
+                                Start Your Journey Today
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };

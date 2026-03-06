@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
         setIsLoading(true);
         try {
             const response = await api.post('/auth/login', { email, password });
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('token', response.data.access_token);
             navigate('/dashboard');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Invalid credentials');

@@ -29,5 +29,16 @@ services:
       JWT_SECRET: super-strong-production-secret
       NODE_ENV: production
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: todo_frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:

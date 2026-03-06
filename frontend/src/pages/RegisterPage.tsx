@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 const RegisterPage: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -16,6 +17,12 @@ const RegisterPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        
+        if (password !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+        
         setIsLoading(true);
         try {
             const response = await api.post('/auth/register', { email, password });
@@ -89,6 +96,23 @@ const RegisterPage: React.FC = () => {
                                 />
                             </div>
                             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 px-1">Must be at least 8 characters long.</p>
+                        </div>
+                        
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 ml-1">Confirm Password</label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+                                    <Lock size={18} />
+                                </div>
+                                <input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl pl-11 pr-4 py-3.5 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                                    placeholder="••••••••"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <button

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, UserPlus, CheckSquare } from 'lucide-react';
+import { Mail, Lock, UserPlus } from 'lucide-react';
 import { isAxiosError } from 'axios';
 import api from '../api';
 import { useAuth } from '../context/AuthContext';
@@ -43,8 +43,8 @@ const RegisterPage: React.FC = () => {
         <div className="min-h-[calc(100vh-64px)] bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-4 py-12">
             <div className="max-w-md w-full space-y-8">
                 <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-500/20 mb-6">
-                        <CheckSquare size={32} />
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-indigo-500/10 mb-6 overflow-hidden border border-slate-100 dark:border-slate-800">
+                        <img src="/logo.png" alt="MyTodo Logo" className="w-12 h-12" />
                     </div>
                     <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                         Create Your Account

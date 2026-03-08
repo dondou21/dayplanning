@@ -28,6 +28,10 @@ model Todo {
   description String?
   completed   Boolean  @default(false)
 
+  priority    String   @default("medium")
+  category    String   @default("General")
+  dueDate     DateTime?
+  
   userId Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

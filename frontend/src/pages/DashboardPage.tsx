@@ -11,12 +11,35 @@ import {
 } from 'lucide-react';
 
 const DashboardPage: React.FC = () => {
-    const [stats] = useState({
-        total: 12,
-        completed: 8,
-        pending: 4,
-        completionRate: 66
-    });
+    const [todos, setTodos] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchTodos = async () => {
+            try {
+                const response = await api.get('/todos');
+                setTodos(response.data);
+            } catch (err) {
+                console.error('Failed to fetch dashboard data', err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchTodos();
+    }, []);
+
+    const stats = {
+        total: todos.length,
+        completed: todos.filter(t => t.completed).length,
+        pending: todos.filter(t => !t.completed).length,
+        completionRate: todos.length > 0 
+            ? Math.round((todos.filter(t => t.completed).length / todos.length) * 100) 
+            : 0
+    };
+
+    const upcomingTasks = todos
+        .filter(t => !t.completed)
+        .slice(0, 3);
 
     return (
         <div className="bg-slate-50 dark:bg-slate-950 min-h-[calc(100vh-64px)] p-6 md:p-10">
@@ -42,28 +65,28 @@ const DashboardPage: React.FC = () => {
                             label: "Total Tasks",
                             value: stats.total,
                             icon: <Circle className="text-indigo-500" />,
-                            trend: "+2 this week",
+                            trend: "All time tasks",
                             color: "indigo"
                         },
                         {
                             label: "Completed",
                             value: stats.completed,
                             icon: <CheckCircle2 className="text-emerald-500" />,
-                            trend: "66% success rate",
+                            trend: `${stats.completionRate}% success rate`,
                             color: "emerald"
                         },
                         {
                             label: "Pending",
                             value: stats.pending,
                             icon: <Clock className="text-amber-500" />,
-                            trend: "Average 2h/task",
+                            trend: "Needs attention",
                             color: "amber"
                         },
                         {
                             label: "Efficiency",
                             value: `${stats.completionRate}%`,
                             icon: <TrendingUp className="text-purple-500" />,
-                            trend: "+5% from last month",
+                            trend: "Calculated progress",
                             color: "purple"
                         }
                     ].map((stat, i) => (
@@ -90,28 +113,33 @@ const DashboardPage: React.FC = () => {
                             <Link to="/todos" className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline">View All</Link>
                         </div>
                         <div className="p-4">
-                            <div className="space-y-2">
-                                {[
-                                    { title: "Review brand guidelines", time: "Today, 2:00 PM", category: "Design" },
-                                    { title: "Weekly team sync", time: "Tomorrow, 10:00 AM", category: "Meeting" },
-                                    { title: "Update project documentation", time: "Feb 20, 2026", category: "Work" }
-                                ].map((task, i) => (
-                                    <div key={i} className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-2xl transition-all cursor-pointer group">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-600 transition-colors">
-                                                <Circle size={18} />
+                            {isLoading ? (
+                                <div className="space-y-4 p-4 animate-pulse">
+                                    <div className="h-12 bg-slate-100 dark:bg-slate-800 rounded-2xl"></div>
+                                    <div className="h-12 bg-slate-100 dark:bg-slate-800 rounded-2xl"></div>
+                                </div>
+                            ) : upcomingTasks.length === 0 ? (
+                                <div className="p-8 text-center text-slate-500">No pending tasks. Start being productive!</div>
+                            ) : (
+                                <div className="space-y-2">
+                                    {upcomingTasks.map((task, i) => (
+                                        <div key={i} className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-2xl transition-all cursor-pointer group">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-600 transition-colors">
+                                                    <Circle size={18} />
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-slate-800 dark:text-slate-200">{task.title}</p>
+                                                    <p className="text-sm text-slate-500 dark:text-slate-400">Created {new Date(task.createdAt).toLocaleDateString()}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-slate-800 dark:text-slate-200">{task.title}</p>
-                                                <p className="text-sm text-slate-500 dark:text-slate-400">{task.time}</p>
-                                            </div>
+                                            <span className={`px-3 py-1 bg-${task.priority === 'high' ? 'rose' : task.priority === 'medium' ? 'amber' : 'slate'}-100 dark:bg-${task.priority === 'high' ? 'rose' : task.priority === 'medium' ? 'amber' : 'slate'}-900/30 text-${task.priority === 'high' ? 'rose' : task.priority === 'medium' ? 'amber' : 'slate'}-600 dark:text-${task.priority === 'high' ? 'rose' : task.priority === 'medium' ? 'amber' : 'slate'}-400 text-xs font-bold rounded-full`}>
+                                                {task.category || 'General'}
+                                            </span>
                                         </div>
-                                        <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold rounded-full">
-                                            {task.category}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
 

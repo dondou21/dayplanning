@@ -5,11 +5,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class TodosService {
     constructor(private readonly prisma: PrismaService) { }
 
-    async create(title: string, userId: number) {
+    async create(title: string, userId: number, details?: { priority?: string; category?: string; dueDate?: Date }) {
         return this.prisma.todo.create({
             data: {
                 title,
                 userId,
+                ...details,
             },
         })
     }

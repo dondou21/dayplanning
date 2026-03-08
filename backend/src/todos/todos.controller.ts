@@ -8,8 +8,13 @@ export class TodosController {
     constructor(private readonly todosService: TodosService) {}
 
     @Post()
-    async create(@Body() body: { title: string }, @Req() req) {
-        return this.todosService.create(body.title, req.user.userId);
+    async create(@Body() body: { title: string; priority?: string; category?: string; dueDate?: string }, @Req() req) {
+        const { title, ...details } = body;
+        const processedDetails = {
+            ...details,
+            dueDate: details.dueDate ? new Date(details.dueDate) : undefined,
+        };
+        return this.todosService.create(title, req.user.userId, processedDetails);
     }
 
     @Get()

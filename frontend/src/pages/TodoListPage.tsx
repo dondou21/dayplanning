@@ -11,6 +11,8 @@ interface Todo {
 const TodoListPage: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [newTodo, setNewTodo] = useState<string>('');
+    const [priority, setPriority] = useState<string>('medium');
+    const [category, setCategory] = useState<string>('General');
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -35,9 +37,15 @@ const TodoListPage: React.FC = () => {
 
         setIsSubmitting(true);
         try {
-            const response = await api.post('/todos', { title: newTodo });
+            const response = await api.post('/todos', { 
+                title: newTodo,
+                priority,
+                category
+            });
             setTodos([response.data, ...todos]);
             setNewTodo('');
+            setPriority('medium');
+            setCategory('General');
         } catch (err) {
             console.error('Failed to add todo', err);
         } finally {
@@ -63,6 +71,14 @@ const TodoListPage: React.FC = () => {
         }
     };
 
+    const getPriorityColor = (p: string) => {
+        switch (p) {
+            case 'high': return 'text-rose-500 bg-rose-50 dark:bg-rose-900/20 border-rose-100 dark:border-rose-800';
+            case 'medium': return 'text-amber-500 bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800';
+            default: return 'text-slate-500 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700';
+        }
+    };
+
     return (
         <div className="bg-slate-50 dark:bg-slate-950 min-h-[calc(100vh-64px)] p-6 md:p-10">
             <div className="max-w-4xl mx-auto">
@@ -77,32 +93,53 @@ const TodoListPage: React.FC = () => {
                 <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden">
                     {/* Add Todo Form */}
                     <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
-                        <form onSubmit={handleAddTodo} className="flex flex-col sm:flex-row gap-4">
-                            <div className="relative flex-1 group">
+                        <form onSubmit={handleAddTodo} className="space-y-4">
+                            <div className="relative group">
                                 <input
                                     type="text"
                                     value={newTodo}
                                     onChange={(e) => setNewTodo(e.target.value)}
-                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-6 py-4 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm"
+                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-6 py-4 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm font-medium"
                                     placeholder="What needs to be done?"
                                     required
                                     disabled={isSubmitting}
                                 />
                             </div>
-                            <button
-                                type="submit"
-                                disabled={isSubmitting || !newTodo.trim()}
-                                className={`bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-4 rounded-2xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-95 flex items-center justify-center gap-2 ${isSubmitting || !newTodo.trim() ? 'opacity-70 cursor-not-allowed' : ''}`}
-                            >
-                                {isSubmitting ? (
-                                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                                ) : (
-                                    <>
-                                        <Plus size={20} />
-                                        <span>Add Task</span>
-                                    </>
-                                )}
-                            </button>
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <select 
+                                    value={priority}
+                                    onChange={(e) => setPriority(e.target.value)}
+                                    className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer"
+                                >
+                                    <option value="low">Low Priority</option>
+                                    <option value="medium">Medium Priority</option>
+                                    <option value="high">High Priority</option>
+                                </select>
+                                <select 
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer"
+                                >
+                                    <option value="General">General</option>
+                                    <option value="Work">Work</option>
+                                    <option value="Personal">Personal</option>
+                                    <option value="Urgent">Urgent</option>
+                                </select>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting || !newTodo.trim()}
+                                    className={`flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-3 rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-95 flex items-center justify-center gap-2 ${isSubmitting || !newTodo.trim() ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                >
+                                    {isSubmitting ? (
+                                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                    ) : (
+                                        <>
+                                            <Plus size={20} />
+                                            <span>Add Task</span>
+                                        </>
+                                    )}
+                                </button>
+                            </div>
                         </form>
                     </div>
 
@@ -138,9 +175,19 @@ const TodoListPage: React.FC = () => {
                                             >
                                                 <CheckCircle2 size={18} />
                                             </button>
-                                            <span className={`text-base sm:text-lg font-semibold transition-all break-words ${todo.completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-200'}`}>
-                                                {todo.title}
-                                            </span>
+                                            <div className="flex flex-col">
+                                                <span className={`text-base sm:text-lg font-bold transition-all break-words ${todo.completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-200'}`}>
+                                                    {todo.title}
+                                                </span>
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <span className={`px-2 py-0.5 rounded-lg border text-[10px] font-black uppercase tracking-widest ${getPriorityColor((todo as any).priority)}`}>
+                                                        {(todo as any).priority}
+                                                    </span>
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-lg">
+                                                        {(todo as any).category || 'General'}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <button
                                             onClick={() => deleteTodo(todo.id)}

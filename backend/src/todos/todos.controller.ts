@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Patch, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guards';
 import { TodosService } from './todos.service';
 
@@ -22,9 +22,9 @@ export class TodosController {
         return this.todosService.findOne(Number(id), req.user.userId);
     }
 
-    @Put(':id')
-    async update(@Param('id') id: string, @Body() body: { title: string }, @Req() req) {
-        return this.todosService.update(Number(id), req.user.userId, body.title);
+    @Patch(':id')
+    async update(@Param('id') id: string, @Body() body: { title?: string; completed?: boolean }, @Req() req) {
+        return this.todosService.update(Number(id), req.user.userId, body);
     }
 
     @Delete(':id')

@@ -31,7 +31,7 @@ export class TodosService {
         })
     }
 
-    async update(id: number, userId: number, title: string) {
+    async update(id: number, userId: number, data: { title?: string; completed?: boolean }) {
         const todo = await this.prisma.todo.findUnique({
             where: {
                 id,
@@ -50,9 +50,7 @@ export class TodosService {
             where: {
                 id,
             },
-            data: {
-                title,
-            },
+            data,
         })
     }
 

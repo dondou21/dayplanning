@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, LogIn } from 'lucide-react';
+import api from '../api';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage: React.FC = () => {

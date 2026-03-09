@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle, Clock, Shield, ArrowRight, Star } from 'lucide-react';
 
+import heroImg from '../assets/images/hero_productivity.png';
+import taskTrackingImg from '../assets/images/feature_task_tracking.png';
+import syncImg from '../assets/images/feature_sync.png';
+
 const HomePage: React.FC = () => {
     return (
         <div className="bg-white dark:bg-slate-950">
@@ -29,45 +33,19 @@ const HomePage: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="mt-20 relative max-w-5xl mx-auto hidden lg:block">
-                        {/* Center large hero icon */}
-                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full filter blur-3xl animate-pulse"></div>
-                        
-                        <div className="relative h-64 flex items-center justify-center">
-                            {/* Main Center Icon */}
-                            <div className="relative z-10 w-32 h-32 bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl shadow-indigo-500/20 border border-slate-100 dark:border-slate-800 flex items-center justify-center transform hover:scale-105 transition-transform duration-500">
-                                <CheckCircle size={64} className="text-indigo-600 dark:text-indigo-400" />
-                                
-                                {/* Orbiting rings */}
-                                <div className="absolute inset-0 border-2 border-indigo-100 dark:border-indigo-900/30 rounded-[2rem] scale-[1.3] opacity-50"></div>
-                                <div className="absolute inset-0 border border-purple-100 dark:border-purple-900/20 rounded-[2rem] scale-[1.6] opacity-30 rotate-12"></div>
-                            </div>
-
-                            {/* Floating Icons Around */}
-                            <div className="absolute top-0 text-amber-400 animate-bounce" style={{ left: '25%', animationDelay: '0ms', animationDuration: '3s' }}>
-                                <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-amber-500/10 border border-slate-100 dark:border-slate-700">
-                                    <Star size={28} className="fill-current" />
-                                </div>
-                            </div>
-                            
-                            <div className="absolute bottom-4 text-emerald-500 animate-bounce" style={{ left: '15%', animationDelay: '1000ms', animationDuration: '4s' }}>
-                                <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl shadow-emerald-500/10 border border-slate-100 dark:border-slate-700">
-                                    <Shield size={24} />
-                                </div>
-                            </div>
-
-                            <div className="absolute top-8 text-blue-500 animate-bounce" style={{ right: '20%', animationDelay: '500ms', animationDuration: '3.5s' }}>
-                                <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-xl shadow-blue-500/10 border border-slate-100 dark:border-slate-700">
-                                    <Clock size={32} />
-                                </div>
-                            </div>
-                            
-                            <div className="absolute bottom-10 right-1/4 translate-x-12 text-purple-500 animate-pulse">
-                                <div className="w-16 h-16 bg-white dark:bg-slate-800 rounded-full shadow-lg shadow-purple-500/10 flex items-center justify-center border border-slate-100 dark:border-slate-700">
-                                    <ArrowRight size={24} />
-                                </div>
-                            </div>
+                    <div className="mt-20 relative max-w-5xl mx-auto">
+                        <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 transform hover:scale-[1.02] transition-transform duration-700">
+                            <img
+                                src={heroImg}
+                                alt="Modern Workspace Productivity"
+                                className="w-full h-auto object-cover max-h-[600px]"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                         </div>
+
+                        {/* Decorative elements */}
+                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-full filter blur-3xl animate-pulse"></div>
+                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/10 dark:bg-purple-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
                     </div>
                 </div>
 
@@ -88,27 +66,45 @@ const HomePage: React.FC = () => {
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
                             {
-                                icon: <CheckCircle className="text-emerald-500" />,
+                                image: taskTrackingImg,
                                 title: "Task Tracking",
-                                description: "Effortlessly create, update, and track your todos with our streamlined interface."
+                                description: "Effortlessly create, update, and track your todos with our streamlined interface.",
+                                accent: "emerald"
                             },
                             {
-                                icon: <Clock className="text-indigo-500" />,
+                                image: syncImg,
                                 title: "Real-time Sync",
-                                description: "Your tasks are always where you need them, syncing instantly across all your devices."
+                                description: "Your tasks are always where you need them, syncing instantly across all your devices.",
+                                accent: "indigo"
                             },
                             {
-                                icon: <Shield className="text-blue-500" />,
+                                icon: <Shield className="text-blue-500" size={32} />,
                                 title: "Secure & Private",
-                                description: "Your data is protected with industry-standard encryption and secure authentication."
+                                description: "Your data is protected with industry-standard encryption and secure authentication.",
+                                accent: "blue"
                             }
                         ].map((feature, i) => (
-                            <div key={i} className="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1">
-                                <div className="w-12 h-12 bg-slate-100 dark:bg-slate-900 rounded-2xl flex items-center justify-center mb-6">
-                                    {React.cloneElement(feature.icon as React.ReactElement<any>, { size: 24 })}
+                            <div key={i} className="bg-white dark:bg-slate-800 rounded-[2.5rem] border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-all hover:-translate-y-2 overflow-hidden flex flex-col group">
+                                <div className="h-48 overflow-hidden relative">
+                                    {feature.image ? (
+                                        <img
+                                            src={feature.image}
+                                            alt={feature.title}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center">
+                                            {feature.icon}
+                                        </div>
+                                    )}
+                                    <div className={`absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm p-3 rounded-2xl shadow-lg text-blue-500`}>
+                                        {feature.image ? <CheckCircle size={24} className="text-emerald-500" /> : feature.icon}
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">{feature.title}</h3>
-                                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{feature.description}</p>
+                                <div className="p-8">
+                                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">{feature.title}</h3>
+                                    <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">{feature.description}</p>
+                                </div>
                             </div>
                         ))}
                     </div>

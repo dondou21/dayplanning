@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Shield, ArrowRight, Star } from 'lucide-react';
+import { CheckCircle, Shield, ArrowRight, Star, Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
 import heroImg from '../assets/images/hero_productivity.png';
 import taskTrackingImg from '../assets/images/feature_task_tracking.png';
@@ -22,10 +22,6 @@ const HomePage: React.FC = () => {
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
                     <div className="max-w-2xl">
-                        <div className="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold text-sm mb-6 animate-fade-in backdrop-blur-sm border border-indigo-100 dark:border-indigo-800">
-                            <Star size={16} fill="currentColor" />
-                            <span>Voted #1 Task Management App</span>
-                        </div>
                         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8 leading-[1.1]">
                             Master Your Day with <span className="text-indigo-600 dark:text-indigo-400">MyTodo</span>
                         </h1>

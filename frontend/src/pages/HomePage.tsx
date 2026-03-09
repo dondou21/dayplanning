@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Clock, Shield, ArrowRight, Star } from 'lucide-react';
+import { CheckCircle, Shield, ArrowRight, Star } from 'lucide-react';
 
 import heroImg from '../assets/images/hero_productivity.png';
 import taskTrackingImg from '../assets/images/feature_task_tracking.png';

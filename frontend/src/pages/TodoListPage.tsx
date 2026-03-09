@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { CheckCircle2, Trash2, Plus, ListTodo, AlertCircle } from "lucide-react";
+import { CheckCircle2, Trash2, Plus, ListTodo, AlertCircle, LogIn, Check } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 
 interface Todo {
@@ -15,9 +15,17 @@ const TodoListPage: React.FC = () => {
     const [category, setCategory] = useState<string>('General');
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetchTodos();
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetchTodos();
+        } else {
+            setIsLoading(false);
+        }
     }, []);
 
     const fetchTodos = async () => {
@@ -33,11 +41,18 @@ const TodoListPage: React.FC = () => {
 
     const handleAddTodo = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setShowAuthPrompt(true);
+            return;
+        }
+
         if (!newTodo.trim()) return;
 
         setIsSubmitting(true);
         try {
-            const response = await api.post('/todos', { 
+            const response = await api.post('/todos', {
                 title: newTodo,
                 priority,
                 category
@@ -46,6 +61,8 @@ const TodoListPage: React.FC = () => {
             setNewTodo('');
             setPriority('medium');
             setCategory('General');
+            setSuccessMessage("Task added successfully!");
+            setTimeout(() => setSuccessMessage(null), 3000);
         } catch (err) {
             console.error('Failed to add todo', err);
         } finally {
@@ -92,7 +109,31 @@ const TodoListPage: React.FC = () => {
 
                 <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden">
                     {/* Add Todo Form */}
-                    <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+                    <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 relative">
+                        {/* Success Notification */}
+                        {successMessage && (
+                            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-emerald-500 text-white px-6 py-2 rounded-full shadow-lg flex items-center gap-2 animate-bounce-short">
+                                <Check size={18} />
+                                <span className="font-bold text-sm">{successMessage}</span>
+                            </div>
+                        )}
+
+                        {/* Auth Prompt */}
+                        {showAuthPrompt && (
+                            <div className="mb-6 p-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-fade-in">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white">
+                                        <LogIn size={20} />
+                                    </div>
+                                    <p className="text-indigo-900 dark:text-indigo-100 font-bold">Please sign in to add tasks</p>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button onClick={() => setShowAuthPrompt(false)} className="px-4 py-2 text-indigo-600 dark:text-indigo-400 font-bold hover:bg-white/50 rounded-xl transition-all">Cancel</button>
+                                    <button onClick={() => navigate('/login')} className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-xl font-bold transition-all shadow-md">Sign In</button>
+                                </div>
+                            </div>
+                        )}
+
                         <form onSubmit={handleAddTodo} className="space-y-4">
                             <div className="relative group">
                                 <input
@@ -106,7 +147,7 @@ const TodoListPage: React.FC = () => {
                                 />
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <select 
+                                <select
                                     value={priority}
                                     onChange={(e) => setPriority(e.target.value)}
                                     className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer"
@@ -115,7 +156,7 @@ const TodoListPage: React.FC = () => {
                                     <option value="medium">Medium Priority</option>
                                     <option value="high">High Priority</option>
                                 </select>
-                                <select 
+                                <select
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
                                     className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer"

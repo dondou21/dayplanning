@@ -17,6 +17,12 @@ const DashboardPage: React.FC = () => {
 
     React.useEffect(() => {
         const fetchTodos = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
+
             try {
                 const response = await api.get('/todos');
                 setTodos(response.data);
@@ -33,8 +39,8 @@ const DashboardPage: React.FC = () => {
         total: todos.length,
         completed: todos.filter(t => t.completed).length,
         pending: todos.filter(t => !t.completed).length,
-        completionRate: todos.length > 0 
-            ? Math.round((todos.filter(t => t.completed).length / todos.length) * 100) 
+        completionRate: todos.length > 0
+            ? Math.round((todos.filter(t => t.completed).length / todos.length) * 100)
             : 0
     };
 
@@ -145,15 +151,13 @@ const DashboardPage: React.FC = () => {
                     </div>
 
                     <div className="flex flex-col gap-8">
+                        {/* New Tip Card replacing the Upgrade card */}
                         <div className="bg-indigo-600 rounded-[2.5rem] p-8 text-white relative overflow-hidden group shadow-xl shadow-indigo-500/20">
                             <div className="relative z-10">
-                                <h2 className="text-2xl font-bold mb-3 italic">Be More Productive</h2>
+                                <h2 className="text-2xl font-bold mb-3 italic">Did you know?</h2>
                                 <p className="text-indigo-100 text-sm mb-8 leading-relaxed">
-                                    Organize your life with <span className="font-bold">MyTodo</span> Premium. Get advanced filters, priority support, and much more.
+                                    Productive people spend 20% less time on low-priority tasks. Use categories to stay focused on what matters.
                                 </p>
-                                <button className="w-full bg-white text-indigo-600 font-bold py-3 rounded-xl hover:bg-slate-100 transition-all transform active:scale-95 shadow-lg">
-                                    Upgrade Now
-                                </button>
                             </div>
                             <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white opacity-10 rounded-full blur-3xl transition-transform group-hover:scale-125 duration-700"></div>
                         </div>

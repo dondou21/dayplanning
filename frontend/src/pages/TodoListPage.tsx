@@ -1,5 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { CheckCircle2, Trash2, Plus, ListTodo, AlertCircle, LogIn, Check } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 
 interface Todo {
@@ -73,7 +74,7 @@ const TodoListPage: React.FC = () => {
     const toggleTodo = async (id: number, completed: boolean) => {
         try {
             await api.patch(`/todos/${id}`, { completed: !completed });
-            setTodos(todos.map(t => t.id === id ? { ...t, completed: !completed } : t));
+            setTodos(todos.map((t: Todo) => t.id === id ? { ...t, completed: !completed } : t));
         } catch (err) {
             console.error('Failed to update todo', err);
         }
@@ -82,7 +83,7 @@ const TodoListPage: React.FC = () => {
     const deleteTodo = async (id: number) => {
         try {
             await api.delete(`/todos/${id}`);
-            setTodos(todos.filter(t => t.id !== id));
+            setTodos(todos.filter((t: Todo) => t.id !== id));
         } catch (err) {
             console.error('Failed to delete todo', err);
         }
@@ -204,7 +205,7 @@ const TodoListPage: React.FC = () => {
                             </div>
                         ) : (
                             <div className="space-y-3">
-                                {todos.map((todo) => (
+                                {todos.map((todo: any) => (
                                     <div
                                         key={todo.id}
                                         className={`group flex items-center justify-between p-4 sm:p-5 bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-indigo-500/30 hover:bg-indigo-50/10 dark:hover:bg-indigo-900/10 transition-all shadow-sm ${todo.completed ? 'opacity-60' : ''}`}
@@ -247,7 +248,7 @@ const TodoListPage: React.FC = () => {
                     {!isLoading && todos.length > 0 && (
                         <div className="px-8 py-4 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
                             <p className="text-xs font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">
-                                {todos.filter(t => !t.completed).length} Tasks remaining
+                                {todos.filter((t: Todo) => !t.completed).length} Tasks remaining
                             </p>
                             <div className="flex items-center gap-1 text-xs font-bold text-indigo-600 dark:text-indigo-400">
                                 <AlertCircle size={14} />

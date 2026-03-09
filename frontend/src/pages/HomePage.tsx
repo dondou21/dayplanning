@@ -10,49 +10,41 @@ const HomePage: React.FC = () => {
     return (
         <div className="bg-white dark:bg-slate-950">
             {/* Hero Section */}
-            <section className="relative pt-20 pb-32 overflow-hidden">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="text-center">
-                        <div className="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold text-sm mb-6 animate-fade-in">
+            <section className="relative min-h-[80vh] flex items-center pt-20 pb-20 overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src={heroImg}
+                        alt="Modern Workspace"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:to-transparent"></div>
+                </div>
+
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+                    <div className="max-w-2xl">
+                        <div className="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold text-sm mb-6 animate-fade-in backdrop-blur-sm border border-indigo-100 dark:border-indigo-800">
                             <Star size={16} fill="currentColor" />
                             <span>Voted #1 Task Management App</span>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8">
+                        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-8 leading-[1.1]">
                             Master Your Day with <span className="text-indigo-600 dark:text-indigo-400">MyTodo</span>
                         </h1>
-                        <p className="text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">
+                        <p className="text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
                             The smartest way to manage your tasks. Stay organized, focused, and achieve your goals faster with our intuitive todo list application.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link to="/register" className="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-indigo-500/20 flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95">
-                                Get Started Free <ArrowRight size={20} />
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Link to="/register" className="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-indigo-500/20 flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95 group">
+                                Get Started Free <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                             </Link>
-                            <Link to="/login" className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all">
+                            <Link to="/login" className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md hover:bg-white dark:hover:bg-slate-700 text-slate-900 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all border border-slate-200 dark:border-slate-700 text-center shadow-lg">
                                 Sign In
                             </Link>
                         </div>
                     </div>
-
-                    <div className="mt-20 relative max-w-5xl mx-auto">
-                        <div className="relative rounded-[3rem] overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 transform hover:scale-[1.02] transition-transform duration-700">
-                            <img
-                                src={heroImg}
-                                alt="Modern Workspace Productivity"
-                                className="w-full h-auto object-cover max-h-[600px]"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                        </div>
-
-                        {/* Decorative elements */}
-                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-full filter blur-3xl animate-pulse"></div>
-                        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-500/10 dark:bg-purple-500/20 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-                    </div>
                 </div>
 
-                {/* Background Blobs */}
-                <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 dark:bg-purple-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-                <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 dark:bg-indigo-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-                <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 dark:bg-pink-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+                {/* Decorative Blobs (Overlapping Background) */}
+                <div className="absolute top-1/4 -right-20 w-96 h-96 bg-indigo-500/20 rounded-full filter blur-[100px] animate-pulse"></div>
             </section>
 
             {/* Features Section */}
